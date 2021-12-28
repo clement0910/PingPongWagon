@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#home'
+
+  get '/profile', to: 'users#profile'
 end

@@ -2,8 +2,11 @@ class User < ApplicationRecord
   devise :database_authenticatable,
          :rememberable,
          :omniauthable, omniauth_providers: [:github]
+
   def self.from_omniauth(access_token)
+    ap access_token
     data = access_token.info
+    ap data
     user = User.where(email: data["email"]).first
 
     user ||= User.create(
