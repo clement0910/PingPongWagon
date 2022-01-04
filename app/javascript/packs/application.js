@@ -15,3 +15,9 @@ import "stylesheets/application";
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+import {initFullCalendar } from "../plugins/init_fullcalendar";
+
+document.addEventListener('turbolinks:load', () => {
+    initFullCalendar();
+});
