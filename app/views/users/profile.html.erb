@@ -1,0 +1,31 @@
+<% unless @matches.empty? %>
+  <h2 class="mb-5 text-3xl font-bold text-center">Tous mes matchs: </h2>
+<% end %>
+  <% @matches.each do |match| %>
+  <div class="w-6/12 mx-auto">
+    <div class="card text-center shadow-2xl lg:card-side bg-accent text-accent-content">
+      <div class="card-body">
+        <h3 class="text-3xl font-bold">Gagné</h3>
+        <div class="justify-between card-actions">
+          <div class="flex items-center">
+            <div class="avatar">
+              <div class="rounded-full w-24 h-24">
+                <%= image_tag match.scores.first.user.image, alt: "#{current_user.email}" %>
+              </div>
+            </div>
+            <p class="text-3xl font-bold ml-8"><%= match.scores.first.score %></p>
+          </div>
+          <div class="flex items-center">
+            <p class="text-3xl font-bold mr-8"><%= match.scores.last.score %></p>
+            <div class="avatar">
+              <div class="rounded-full w-24 h-24">
+                <%= image_tag match.scores.last.user.image, alt: "#{current_user.email}" %>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

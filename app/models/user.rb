@@ -3,6 +3,10 @@ class User < ApplicationRecord
          :rememberable,
          :omniauthable, omniauth_providers: [:github]
 
+
+  has_many :scores, dependent: :destroy
+  has_many :matches, through: :scores, dependent: :destroy
+
   def self.from_omniauth(access_token)
     ap access_token
     data = access_token.info
