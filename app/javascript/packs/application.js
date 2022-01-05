@@ -21,3 +21,5 @@ import {initFullCalendar } from "../plugins/init_fullcalendar";
 document.addEventListener('turbolinks:load', () => {
     initFullCalendar();
 });
+
+import "controllers"
