@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :scores, dependent: :destroy
   has_many :matches, through: :scores, dependent: :destroy
+  has_many :bookings
 
   def self.from_omniauth(access_token)
     ap access_token
