@@ -4,8 +4,12 @@
 <%# end %>
 <div class="w-6/12 mx-auto">
   <h2 class="mb-5 text-3xl font-bold text-center">Réserver la table de Ping-Pong:</h2>
-  <div id="calendar"></div>
-  <div data-controller="hello">
-   <h1 data-target="hello.output"></h1>
-  </div>
+  <%= content_tag :div, data: { controller: 'calendar'} do %>
+  <%= tag :div, data: { calendar_target: 'calendar', events: @db_events.to_json} %>
+  <% end %>
+
+
+
+
+
 </div>
