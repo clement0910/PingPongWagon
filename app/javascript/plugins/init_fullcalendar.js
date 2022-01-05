@@ -21,6 +21,8 @@ const getBusinessStartTime = () => {
 const initFullCalendar = () => {
     const calendarEl = document.getElementById('calendar');
     if (calendarEl) {
+        const coachEvents = JSON.parse(calendarEl.dataset.events);
+        console.log(coachEvents)
         let calendar = new Calendar(calendarEl, {
             plugins: [ timeGridPlugin, interactionPlugin ],
             views: {
@@ -45,7 +47,22 @@ const initFullCalendar = () => {
                 endTime: '21:00', // an end time (6pm in this example)
             },
            scrollTime: date.timeNow(),
-           selectable: true
+           selectable: true,
+           events: coachEvents,
+           select: function(date) {
+                const url = `${window.location.href}bookings`;
+                const csrfToken = document.querySelector("[name='csrf-token']").content
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        "X-CSRF-Token": csrfToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({start: date.start, end: date.end})
+                }).then(r => console.log(r));
+                calendar.render()
+            }
         });
         calendar.render();
     }

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     delete '/users/sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
+  resources :bookings, only: [:create]
   root to: 'pages#home'
 
   get '/profile', to: 'users#profile'
