@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: [:update]
+  before_action :set_booking, only: [:update, :destroy]
   def index
     @bookings = Booking.all
   end
@@ -17,6 +17,11 @@ class BookingsController < ApplicationController
 
   def update
     @booking.update(booking_params)
+  end
+
+  def destroy
+    @booking.destroy
+    redirect_to root_path
   end
 
   private

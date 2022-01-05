@@ -5,11 +5,24 @@
 <div class="w-6/12 mx-auto">
   <h2 class="mb-5 text-3xl font-bold text-center">Réserver la table de Ping-Pong:</h2>
   <%= content_tag :div, data: { controller: 'calendar'} do %>
+    <%= content_tag :div, class: 'modal', data: { calendar_target: 'modal' } do %>
+      <div class="modal-box">
+        <p>Êtes vous sur de vouloir réserver la table de ping pong</p>
+        <div class="modal-action">
+          <button class="btn btn-primary" data-target="calendar.btn" data-action="click->calendar#validate_booking">Oui</button>
+          <button class="btn" data-action="click->calendar#disable">Close</button>
+        </div>
+      </div>
+    <% end %>
+    <%= content_tag :div, class: 'modal', data: { calendar_target: 'modalremove' } do %>
+      <div class="modal-box">
+        <p>Êtes vous sur de vouloir supprimer la table de ping pong</p>
+        <div class="modal-action">
+          <button class="btn btn-primary" data-action="click->calendar#remove_booking2">Oui</button>
+          <button class="btn" data-action="click->calendar#disable2">Close</button>
+        </div>
+      </div>
+    <% end %>
   <%= tag :div, data: { calendar_target: 'calendar', events: @db_events.to_json} %>
   <% end %>
-
-
-
-
-
 </div>
