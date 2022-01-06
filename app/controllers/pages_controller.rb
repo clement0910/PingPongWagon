@@ -7,6 +7,7 @@ class PagesController < ApplicationController
         start: event.start.strftime('%FT%T%:z'),
         end: event.end.strftime('%FT%T%:z')
       }
+      @users = User.all
     end
   end
 end

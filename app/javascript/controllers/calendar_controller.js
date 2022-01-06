@@ -13,6 +13,7 @@ export default class extends Controller {
     static targets = ["calendar", "modal", "modalremove", "btn", "removebtn"]
 
     connect() {
+        console.log("calendar connected")
         let _this = this
         let eventslist = JSON.parse(_this.calendarTarget.dataset.events);
         let calendar = new Calendar(this.calendarTarget, {
