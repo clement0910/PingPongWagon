@@ -1,35 +1,32 @@
 import { Controller } from "stimulus"
-import { Calendar } from '@fullcalendar/core';
+import {Calendar} from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import frLocale from '@fullcalendar/core/locales/fr';
 import interactionPlugin from '@fullcalendar/interaction';
 import Rails from '@rails/ujs'
 
 const date = new Date;
+let selectDate;
 
 Date.prototype.timeNow = function () {
     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 }
 
-let date_tom;
-let remove;
-const delay = (n) => new Promise( r => setTimeout(r, n*1000));
-
 const getBusinessStartTime = () => {
     if (date.getHours() < 8) {
-        return '08:00'
+        return '08:00';
     }
     else {
-        return date.timeNow()
+        return date.timeNow();
     }
 }
 
 export default class extends Controller {
-    static targets = ["calendar", "modal", "modalremove", "btn", "removebtn"]
+    static targets = ["calendar", "modalCreate", "modalRemove"]
 
     connect() {
-        let _this = this
-        let eventslist = JSON.parse(_this.calendarTarget.dataset.events);
+        let _this = this;
+        let eventslist = '/bookings.json'
         let calendar = new Calendar(this.calendarTarget, {
             plugins: [ timeGridPlugin, interactionPlugin ],
             views: {
@@ -41,11 +38,12 @@ export default class extends Controller {
             },
             initialView: 'timeGridDay',
             allDaySlot: false,
-            slotDuration: '00:15:00',
+            slotDuration: '00:10:00',
             navLinks: false,
             headerToolbar: false,
             height: 800,
             nowIndicator: true,
+            eventOverlap: false,
             locale: frLocale,
             timeZone: 'Europe/Paris',
             businessHours: {
@@ -65,8 +63,7 @@ export default class extends Controller {
             },
             scrollTime: date.timeNow(),
             events: eventslist,
-            editable: true,
-            selectable: true,
+            editable: true, selectable: true,
             eventDrop: function (info) {
                 let data = _this.data(info)
                 Rails.ajax({
@@ -74,6 +71,9 @@ export default class extends Controller {
                     url: `http://localhost:3000/bookings/${info.event.id}`,
                     data: new URLSearchParams(data).toString()
                 })
+            },
+            eventClick: function (info) {
+                info.jsEvent.preventDefault();
             },
             eventResize: function (info) {
                 let data = _this.data(info)
@@ -84,69 +84,44 @@ export default class extends Controller {
                 })
             },
             select: function(date) {
-                _this.modalTarget.classList.add('modal-open')
-                date_tom = date;
+                _this.modalCreateTarget.classList.add('modal-open');
+                selectDate = date;
             },
-            eventMouseEnter: function (data) {
-                // let btn = document.createElement("button");
-                remove = data.event.id
-                // btn.classList.add('btn');
-                // btn.innerHTML = 'X';
-                // btn.setAttribute("id", "yolo");
-                // btn.setAttribute("data-target", "removebtn");
-                // btn.setAttribute("data-action", "click->calendar#remove_booking")
-                // data.el.appendChild(btn);
+            eventContent: function(event) {
+                return { html: `<div class="flex justify-between mr-2"><div>14-15h - ${event.event._def.title}</></div>  <button class='btn btn-outline btn-square btn-xs' data-action='click->calendar#openRemoveBookingModal' data-id="${event.event._def.publicId}">X</button></div>` }
             },
-            // eventMouseLeave: function (data) {
-            //     let btn = document.getElementById("yolo");
-            //     if (btn) {
-            //         btn.remove();
-            //     }
-            // },
-            eventContent: function(arg) {
-                return {
-                html: "<button class='btn' data-target='removebtn' data-action='click->calendar#remove_booking'>X</button>" }
 
-                let italicEl = document.createElement('i')
-
-                if (arg.event.extendedProps.isUrgent) {
-                    italicEl.innerHTML = 'urgent event'
-                } else {
-                    italicEl.innerHTML = 'normal event'
-                }
-
-                let arrayOfDomNodes = [ italicEl ]
-                return { domNodes: arrayOfDomNodes }
-            }
         })
         calendar.render()
     }
 
-    disable() {
-        this.modalTarget.classList.remove('modal-open')
+    closeCreateBookingModal() {
+        this.modalCreateTarget.classList.remove('modal-open');
     }
 
-    disable2() {
-        this.modalremoveTarget.remove('modal-open')
+    closeRemoveBookingModal() {
+        this.modalRemoveTarget.classlist.remove('modal-open');
     }
 
-
-    remove_booking() {
-        this.modalremoveTarget.classList.add('modal-open');
+    openRemoveBookingModal(event) {
+        this.modalRemoveTarget.classList.add('modal-open');
+        const btn = document.getElementById("removeBookingBtn");
+        // console.log(event.target.dataset.id)
+        btn.setAttribute("data-id", event.target.dataset.id.toString());
     }
 
-    remove_booking2() {
+    removeBooking(event) {
+        const bookingId = event.target.dataset.id;
         Rails.ajax({
             type: 'DELETE',
-            url: `http://localhost:3000/bookings/${remove}`,
+            url: `http://localhost:3000/bookings/${bookingId}`,
         })
     }
-     async validate_booking() {
+
+     createBooking() {
         const url = `${window.location.href}bookings`;
-        let data = {"booking[start]": date_tom.start, "booking[end]": date_tom.end}
-        this.btnTarget.classList.add('loading');
-        await delay(2);
-        this.modalTarget.classList.remove('modal-open');
+        let data = {"booking[start]": selectDate.start, "booking[end]": selectDate.end}
+        console.log("EH OH");
         Rails.ajax({
             type: 'POST',
             url: url,
@@ -160,5 +135,6 @@ export default class extends Controller {
             "booking[end]": info.event.end,
         }
     }
+
 
 }
