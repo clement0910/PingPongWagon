@@ -8,6 +8,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     @booking.match = Match.create
     @booking.user = current_user
+    @booking.title = 'PLACEHOLDER'
     if @booking.save
       redirect_to root_path
     else
