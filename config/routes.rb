@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   resources :bookings
 
   get '/profile', to: 'users#profile'
+  get '/ranking', to: 'pages#ranking'
 end

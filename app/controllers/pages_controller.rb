@@ -10,4 +10,8 @@ class PagesController < ApplicationController
       @users = User.all
     end
   end
+
+  def ranking
+
+  end
 end

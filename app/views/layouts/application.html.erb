@@ -15,5 +15,6 @@
   <body>
   <%= render 'shared/navbar' unless current_page?(new_user_session_path) %>
   <%= yield %>
+  <%= render 'shared/footer' unless current_page?(new_user_session_path)  %>
   </body>
 </html>

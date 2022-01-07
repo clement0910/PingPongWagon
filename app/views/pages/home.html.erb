@@ -1,7 +1,4 @@
 <h1 class="text-center mb-8">Welcome <%= current_user.name %> !</h1>
-<%# if @match %>
-<!--  <h2 class="mb-5 text-3xl font-bold text-center">Match en direct: </h2>-->
-<%# end %>
 <div class="w-6/12 mx-auto">
   <%= content_tag :div, data: {controller: 'match'} do %>
   <%= content_tag :div, class: 'modal', data: { match_target: 'modal' } do %>
@@ -90,14 +87,13 @@
         <div class="form-control" style="width: 70px;">
           <input type="text" placeholder="12" class="input input-bordered">
         </div>
-
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ls" width="14.29" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 274 614"><path d="M274 248v73H0v-73h274z" fill="currentColor"></path></svg>
         <div class="form-control" style="width: 70px;">
           <input type="text" placeholder="5" class="input input-bordered">
         </div>
-
       </div>
       <div class="flex justify-center gap-4">
-        <button class="btn btn-primary">Oui</button>
+        <button class="btn btn-primary">Create Match</button>
         <button class="btn" data-action="click->match#closeModal">Close</button>
       </div>
     </div>
@@ -110,8 +106,12 @@
       Create New Match
     <% end %>
   <% end  %>
-  <h2 class="mb-5 text-3xl font-bold text-center">Réserver la table de Ping-Pong:</h2>
-  <%= content_tag :div, data: { controller: 'calendar'} do %>
+  <div class="divider">OR</div>
+
+  <div class="flex justify-center">
+  <h2 class="mb-5 text-3xl font-bold text-center btn btn-outline btn-disabled">Book Ping-Pong Table:</h2>
+  </div>
+  <%= content_tag :div, class: "mb-4", data: { controller: 'calendar'} do %>
     <%= content_tag :div, class: 'modal', data: { calendar_target: 'modal' } do %>
       <div class="modal-box">
         <p>Êtes vous sur de vouloir réserver la table de ping pong</p>
@@ -132,4 +132,5 @@
     <% end %>
   <%= tag :div, data: { calendar_target: 'calendar', events: @db_events.to_json} %>
   <% end %>
+</div>
 </div>
