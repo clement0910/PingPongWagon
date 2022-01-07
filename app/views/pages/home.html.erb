@@ -1,111 +1,111 @@
 <h1 class="text-center mb-8">Welcome <%= current_user.name %> !</h1>
 <div class="w-6/12 mx-auto">
-  <%#= content_tag :div, data: {controller: 'match'} do %>
-  <%#= content_tag :div, class: 'modal', data: { match_target: 'modal' } do %>
-<!--    <div class="modal-box">-->
-<!--      <h2 class="text-center text-lg font-bold mb-4">Create New Match</h2>-->
-<!--      <div class="justify-between card-actions items-center">-->
-<!--        <div class="flex">-->
-<!--          <div class="avatar">-->
-<!--            <div class="rounded-full w-24 h-24">-->
-              <%#= image_tag 'Versus-PNG-Pic.png', alt: "#{current_user.email}" %>
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="dropdown dropdown-end">-->
-<!--            <div tabindex="0" class="btn btn-circle btn-ghost btn-xs text-info">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline w-5 h-5 stroke-current">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>-->
-<!--              </svg>-->
-<!--            </div>-->
-<!--            <div tabindex="0" class="shadow card compact dropdown-content bg-base-100 rounded-box w-52">-->
-<!--              <div class="card-body">-->
-<!--                <h2 class="card-title">You needed more info?</h2>-->
-<!--                <p>Here is more info you wanted. You're welcome!</p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="flex">-->
-<!--          <div class="avatar">-->
-<!--            <div class="rounded-btn w-16 h-16">-->
-            <%#= image_tag 'Versus-PNG-Pic.png' %>
-<!--          </div>-->
-<!--        </div>-->
+  <%= content_tag :div, data: {controller: 'match'} do %>
+  <%= content_tag :div, class: 'modal', data: { match_target: 'modal' } do %>
+    <div class="modal-box">
+      <h2 class="text-center text-lg font-bold mb-4">Create New Match</h2>
+      <div class="justify-between card-actions items-center">
+        <div class="flex">
+          <div class="avatar">
+            <div class="rounded-full w-24 h-24">
+              <%= image_tag current_user.image, alt: "#{current_user.email}" %>
+            </div>
+          </div>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" class="btn btn-circle btn-ghost btn-xs text-info">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline w-5 h-5 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div tabindex="0" class="shadow card compact dropdown-content bg-base-100 rounded-box w-52">
+              <div class="card-body">
+                <h2 class="card-title">You needed more info?</h2>
+                <p>Here is more info you wanted. You're welcome!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex">
+          <div class="avatar">
+            <div class="rounded-btn w-16 h-16">
+            <%= image_tag 'Versus-PNG-Pic.png' %>
+          </div>
+        </div>
 
-<!--        </div>-->
-<!--        <div class="flex">-->
-<!--          <div class="dropdown dropdown-start">-->
-<!--            <div tabindex="0" class="btn btn-circle btn-ghost btn-xs text-info">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline w-5 h-5 stroke-current">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>-->
-<!--              </svg>-->
-<!--            </div>-->
-<!--            <div tabindex="0" class="shadow card compact dropdown-content bg-base-100 rounded-box w-52">-->
-<!--              <div class="card-body">-->
-<!--                <h2 class="card-title">You needed more info?</h2>-->
-<!--                <p>Here is more info you wanted. You're welcome!</p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="avatar">-->
-<!--            <div class="rounded-full w-24 h-24">-->
-              <%#= image_tag 'Versus-PNG-Pic.png', alt: "#{current_user.email}" %>
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="justify-between card-actions items-center">-->
-<!--        <div class="">-->
-<!--          <div class="btn btn-outline btn-primary btn-disabled">-->
-<!--          <p style="color: white; text-transform: none;">Clément</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="">-->
-<!--                <div class="dropdown dropdown-end">-->
-<!--                  <div tabindex="0" class="select select-bordered select-primary">-->
-<!--                    <p style="margin-top: 9px;" data-target="match.select">Select User</p>-->
-<!--                  </div>-->
-<!--                  <ul tabindex="0" class="p-2 menu dropdown-content bg-base-100 rounded-box w-52">-->
-          <%# @users.each do |user| %>
-<!--                      <li>-->
-<!--                        <a class="justify-between" data-action="click->match#changeuser">-->
-          <%#= user.name %>
-<!--                          <div class="ml-1 avatar">-->
-<!--                            <div class="rounded-full w-8 h-8">-->
-          <%#= image_tag user.image %>
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                        </a>-->
-<!--                      </li>-->
-          <%# end %>
-<!--                  </ul>-->
-<!--                </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--      <h2 class="text-center text-lg font-bold mt-4">Score</h2>-->
-<!--      <div class="justify-between card-actions items-center mb-4">-->
-<!--        <div class="form-control" style="width: 70px;">-->
-<!--          <input type="text" placeholder="12" class="input input-bordered">-->
-<!--        </div>-->
-<!--        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ls" width="14.29" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 274 614"><path d="M274 248v73H0v-73h274z" fill="currentColor"></path></svg>-->
-<!--        <div class="form-control" style="width: 70px;">-->
-<!--          <input type="text" placeholder="5" class="input input-bordered">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="flex justify-center gap-4">-->
-<!--        <button class="btn btn-primary">Create Match</button>-->
-<!--        <button class="btn" data-action="click->match#closeModal">Close</button>-->
-<!--      </div>-->
-<!--    </div>-->
-  <%# end %>
-    <%#= button_tag class: 'btn btn-primary btn-block', data: { action: 'click->match#openModal'} do %>
-<!--      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"-->
-<!--           width="24" height="24" class="mr-2"-->
-<!--           viewBox="0 0 24 24"-->
-<!--           style=" fill:#FFFFFF;"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 11 L 7 11 L 7 13 L 11 13 L 11 17 L 13 17 L 13 13 L 17 13 L 17 11 L 13 11 L 13 7 L 11 7 z"></path></svg>-->
-<!--      Create New Match-->
-    <%# end %>
-  <%# end  %>
+        </div>
+        <div class="flex">
+          <div class="dropdown dropdown-start">
+            <div tabindex="0" class="btn btn-circle btn-ghost btn-xs text-info">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline w-5 h-5 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div tabindex="0" class="shadow card compact dropdown-content bg-base-100 rounded-box w-52">
+              <div class="card-body">
+                <h2 class="card-title">You needed more info?</h2>
+                <p>Here is more info you wanted. You're welcome!</p>
+              </div>
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="rounded-full w-24 h-24">
+              <%= image_tag 'default-image.png' , data: { match_target: 'userImage' }, alt: "default user image" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="justify-between card-actions items-center">
+        <div class="">
+          <div class="btn btn-outline btn-primary btn-disabled">
+          <p style="color: white; text-transform: none;">Clément</p>
+          </div>
+        </div>
+        <div class="">
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" class="select select-bordered select-primary">
+                    <p style="margin-top: 9px;" data-match-target="select">Select User</p>
+                  </div>
+                  <ul tabindex="0" class="p-2 menu dropdown-content bg-base-100 rounded-box w-52">
+          <% @users.each do |user| %>
+                      <li>
+                        <a class="justify-between" data-action="click->match#changeUser">
+                           <%= user.name %>
+                          <div class="ml-1 avatar">
+                            <div class="rounded-full w-8 h-8">
+                              <%= image_tag user.image %>
+                          </div>
+                        </div>
+                        </a>
+                      </li>
+          <% end %>
+                  </ul>
+                </div>
+                  </div>
+                </div>
+      <h2 class="text-center text-lg font-bold mt-4">Score</h2>
+      <div class="justify-between card-actions items-center mb-4">
+        <div class="form-control" style="width: 70px;">
+          <input type="text" placeholder="12" class="input input-bordered" data-match-target="personalScore">
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ls" width="14.29" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 274 614"><path d="M274 248v73H0v-73h274z" fill="currentColor"></path></svg>
+        <div class="form-control" style="width: 70px;">
+          <input type="text" placeholder="5" class="input input-bordered" data-match-target="enemyScore">
+        </div>
+      </div>
+      <div class="flex justify-center gap-4">
+        <button class="btn btn-primary" data-action="click->match#createMatch">Create Match</button>
+        <button class="btn" data-action="click->match#closeModal">Close</button>
+      </div>
+    </div>
+  <% end %>
+    <%= button_tag class: 'btn btn-primary btn-block', data: { action: 'click->match#openModal'} do %>
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+           width="24" height="24" class="mr-2"
+           viewBox="0 0 24 24"
+           style=" fill:#FFFFFF;"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 11 L 7 11 L 7 13 L 11 13 L 11 17 L 13 17 L 13 13 L 17 13 L 17 11 L 13 11 L 13 7 L 11 7 z"></path></svg>
+      Create New Match
+    <% end %>
+  <% end  %>
   <div class="divider">OR</div>
 
   <div class="flex justify-center">
@@ -123,9 +123,9 @@
     <% end %>
     <%= content_tag :div, class: 'modal', data: { calendar_target: 'modalRemove' } do %>
       <div class="modal-box">
-        <p>Êtes vous sur de vouloir supprimer la table de ping pong</p>
+        <p>Did you really want to delete this slot ?</p>
         <div class="modal-action">
-          <button class="btn btn-primary" id="removeBookingBtn" data-action="click->calendar#removeBooking">Oui</button>
+          <button class="btn btn-primary" id="removeBookingBtn" data-action="click->calendar#removeBooking" data-user="<%= current_user.id %>">Yes</button>
           <button class="btn" data-action="click->calendar#closeRemoveBookingModal">Close</button>
         </div>
       </div>

@@ -46,21 +46,21 @@ export default class extends Controller {
             eventOverlap: false,
             locale: frLocale,
             timeZone: 'Europe/Paris',
-            businessHours: {
-                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-                startTime: getBusinessStartTime(),
-                endTime: '21:00', // an end time (6pm in this example)
-            },
-            eventConstraint: {
-                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-                startTime: getBusinessStartTime(),
-                endTime: '21:00',
-            },
-            selectConstraint: {
-                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-                startTime: getBusinessStartTime(),
-                endTime: '21:00',
-            },
+            // businessHours: {
+            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+            //     startTime: getBusinessStartTime(),
+            //     endTime: '21:00', // an end time (6pm in this example)
+            // },
+            // eventConstraint: {
+            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+            //     startTime: getBusinessStartTime(),
+            //     endTime: '21:00',
+            // },
+            // selectConstraint: {
+            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+            //     startTime: getBusinessStartTime(),
+            //     endTime: '21:00',
+            // },
             scrollTime: date.timeNow(),
             events: eventslist,
             editable: true, selectable: true,
@@ -69,7 +69,7 @@ export default class extends Controller {
                 Rails.ajax({
                     type: 'PATCH',
                     url: `http://localhost:3000/bookings/${info.event.id}`,
-                    data: new URLSearchParams(data).toString()
+                    data: new URLSearchParams(data).toString(),
                 })
             },
             eventClick: function (info) {
@@ -88,7 +88,7 @@ export default class extends Controller {
                 selectDate = date;
             },
             eventContent: function(event) {
-                return { html: `<div class="flex justify-between mr-2"><div>14-15h - ${event.event._def.title}</></div>  <button class='btn btn-outline btn-square btn-xs' data-action='click->calendar#openRemoveBookingModal' data-id="${event.event._def.publicId}">X</button></div>` }
+                return { html: `<div class="flex justify-between mr-2"><div>14-15h - ${event.event._def.title}</></div>  <button class='btn btn-outline btn-square btn-xs' data-action='click->calendar#openRemoveBookingModal' data-id="${event.event._def.publicId}" data-user="${event.event._def.extendedProps.user}">X</button></div>` }
             },
 
         })
@@ -100,12 +100,24 @@ export default class extends Controller {
     }
 
     closeRemoveBookingModal() {
-        this.modalRemoveTarget.classlist.remove('modal-open');
+        this.modalRemoveTarget.classList.remove('modal-open');
     }
 
     openRemoveBookingModal(event) {
-        this.modalRemoveTarget.classList.add('modal-open');
+        console.log(event.target.dataset.user);
         const btn = document.getElementById("removeBookingBtn");
+        this.modalRemoveTarget.classList.add('modal-open');
+        if (btn.dataset.user != event.target.dataset.user) {
+            this.modalRemoveTarget.firstElementChild.firstElementChild.innerHTML = "You cannot delete a slot that does not belong to you."
+            btn.classList.add('hidden');
+            return ;
+        }
+        else {
+            this.modalRemoveTarget.firstElementChild.firstElementChild.innerHTML = "Did you really want to delete this slot ?"
+            if (btn.classList.contains('hidden')) {
+                btn.classList.remove('hidden');
+            }
+        }
         // console.log(event.target.dataset.id)
         btn.setAttribute("data-id", event.target.dataset.id.toString());
     }
@@ -128,7 +140,6 @@ export default class extends Controller {
             data: new URLSearchParams(data).toString()
         })
     }
-
     data(info) {
         return {
             "booking[start]": info.event.start,

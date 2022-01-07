@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2022_01_07_113551) do
     t.datetime "start"
     t.datetime "end"
     t.bigint "user_id", null: false
-    t.bigint "match_id", null: false
+    t.bigint "match_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"

@@ -1,4 +1,4 @@
 class Match < ApplicationRecord
   has_many :scores, dependent: :destroy
-  has_one :booking
+  belongs_to :booking, optional: true
 end

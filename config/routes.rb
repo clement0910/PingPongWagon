@@ -13,4 +13,5 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'users#profile'
   get '/ranking', to: 'pages#ranking'
+  get '/current_user', to: 'users#current_user'
 end

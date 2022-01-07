@@ -1,28 +1,30 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:update, :destroy]
   def index
-    @bookings = Booking.all
+    @bookings = Booking.where('start >= ?', Date.today)
   end
 
   def create
     @booking = Booking.new(booking_params)
-    @booking.match = Match.create
     @booking.user = current_user
-    @booking.title = 'PLACEHOLDER'
+    @booking.title = "#{current_user.name}'s Slot"
     if @booking.save
       redirect_to root_path
     else
-      render :new
+      redirect_to root_path, alert: 'An Error has occured.'
     end
   end
 
   def update
-    @booking.update(booking_params)
+    redirect_to root_path, alert: 'An Error has occured.' unless @booking.update(booking_params)
   end
 
   def destroy
-    @booking.destroy
-    redirect_to root_path
+    if @booking.user == current_user && @booking.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path, alert: 'An Error has occured.'
+    end
   end
 
   private

@@ -5,6 +5,10 @@ class UsersController < ApplicationController
     @matches = @user.matches
   end
 
+  def current_user
+    render json: {id: current_user.id}
+  end
+
   private
 
   def set_user

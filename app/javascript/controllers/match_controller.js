@@ -1,24 +1,33 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-    static targets = ["modal", "select"]
+    static targets = ["modal", "select", "userImage", "personalScore", "enemyScore"]
 
     connect() {
-        console.log("connected");
-        console.log(this.selectTarget.innerHTML)
     }
 
-    changeuser(event) {
-        console.log(this.selectTarget)
-        this.selectTarget.innerHTML = event.target.innerText
+    changeUser(event) {
+        if (event.target.localName === "a") {
+            const userImg = event.target.firstElementChild.firstElementChild.firstElementChild.src;
+            this.selectTarget.innerHTML = event.target.innerText
+            this.userImageTarget.src = userImg;
+        }
 
     }
     openModal() {
-        console.log("HELLO WORLD")
         this.modalTarget.classList.add("modal-open");
     }
 
     closeModal() {
         this.modalTarget.classList.remove("modal-open");
+    }
+
+    createMatch() {
+        const enemy = this.selectTarget.innerText
+        const myscore = this.personalScoreTarget.value;
+        const enemyvalue = this.enemyScoreTarget.value;
+        console.log(enemy);
+        console.log(enemyvalue);
+        console.log(myscore);
     }
 }
