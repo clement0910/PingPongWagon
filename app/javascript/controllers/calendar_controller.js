@@ -5,15 +5,29 @@ import frLocale from '@fullcalendar/core/locales/fr';
 import interactionPlugin from '@fullcalendar/interaction';
 import Rails from '@rails/ujs'
 
+const date = new Date;
+
+Date.prototype.timeNow = function () {
+    return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+}
+
 let date_tom;
 let remove;
 const delay = (n) => new Promise( r => setTimeout(r, n*1000));
+
+const getBusinessStartTime = () => {
+    if (date.getHours() < 8) {
+        return '08:00'
+    }
+    else {
+        return date.timeNow()
+    }
+}
 
 export default class extends Controller {
     static targets = ["calendar", "modal", "modalremove", "btn", "removebtn"]
 
     connect() {
-        console.log("calendar connected")
         let _this = this
         let eventslist = JSON.parse(_this.calendarTarget.dataset.events);
         let calendar = new Calendar(this.calendarTarget, {
@@ -34,6 +48,22 @@ export default class extends Controller {
             nowIndicator: true,
             locale: frLocale,
             timeZone: 'Europe/Paris',
+            businessHours: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00', // an end time (6pm in this example)
+            },
+            eventConstraint: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00',
+            },
+            selectConstraint: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00',
+            },
+            scrollTime: date.timeNow(),
             events: eventslist,
             editable: true,
             selectable: true,
