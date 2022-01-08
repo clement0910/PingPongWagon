@@ -16,7 +16,7 @@ class BookingsController < ApplicationController
   end
 
   def update
-    redirect_to root_path, alert: 'An Error has occured.' unless @booking.update(booking_params)
+    redirect_to root_path, alert: 'An Error has occured.' unless @booking.update(booking_params) || @booking.user != current_user
   end
 
   def destroy
