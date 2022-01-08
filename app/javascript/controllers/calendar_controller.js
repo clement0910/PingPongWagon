@@ -21,6 +21,25 @@ const getBusinessStartTime = () => {
     }
 }
 
+let currentUserId;
+
+const getCurrentUserId = (data) => {
+    currentUserId = data.id
+}
+
+Rails.ajax({
+    type: 'GET',
+    dataType: 'json',
+    url: '/current_user_id.json',
+    success: function(data) {
+        getCurrentUserId(data)
+    }
+});
+
+const returngood = (event) => {
+    console.log(event);
+    return false;
+}
 export default class extends Controller {
     static targets = ["calendar", "modalCreate", "modalRemove"]
 
@@ -44,26 +63,36 @@ export default class extends Controller {
             height: 800,
             nowIndicator: true,
             eventOverlap: false,
+            selectOverlap: false,
             locale: frLocale,
             timeZone: 'Europe/Paris',
-            // businessHours: {
-            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-            //     startTime: getBusinessStartTime(),
-            //     endTime: '21:00', // an end time (6pm in this example)
-            // },
-            // eventConstraint: {
-            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-            //     startTime: getBusinessStartTime(),
-            //     endTime: '21:00',
-            // },
-            // selectConstraint: {
-            //     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-            //     startTime: getBusinessStartTime(),
-            //     endTime: '21:00',
-            // },
+            businessHours: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00', // an end time (6pm in this example)
+            },
+            eventConstraint: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00',
+            },
+            selectConstraint: {
+                daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                startTime: getBusinessStartTime(),
+                endTime: '21:00',
+            },
             scrollTime: date.timeNow(),
             events: eventslist,
             editable: true, selectable: true,
+            eventAllow: function (dropInfo, draggedEvent) {
+                console.log(dropInfo)
+                if (currentUserId != draggedEvent._def.extendedProps.user) {
+                    return false
+                }
+                else {
+                    return true
+                }
+            },
             eventDrop: function (info) {
                 let data = _this.data(info)
                 Rails.ajax({
@@ -88,7 +117,17 @@ export default class extends Controller {
                 selectDate = date;
             },
             eventContent: function(event) {
-                return { html: `<div class="flex justify-between mr-2"><div>14-15h - ${event.event._def.title}</></div>  <button class='btn btn-outline btn-square btn-xs' data-action='click->calendar#openRemoveBookingModal' data-id="${event.event._def.publicId}" data-user="${event.event._def.extendedProps.user}">X</button></div>` }
+                let startEvent = event.event._instance.range.start;
+                startEvent.setHours(startEvent.getHours() - 1);
+                if (startEvent > date && currentUserId === event.event._def.extendedProps.user) {
+                    startEvent.setHours(startEvent.getHours() + 1);
+                    return { html: `<div class="flex justify-between mr-2"><div>${event.event._def.title}</div>  <button class='btn btn-outline btn-square btn-xs' data-action='click->calendar#openRemoveBookingModal' data-id="${event.event._def.publicId}" data-user="${event.event._def.extendedProps.user}">X</button></div>` }
+                }
+                else {
+                    startEvent.setHours(startEvent.getHours() + 1);
+                    return { html: `<div>${event.event._def.title}</div>` }
+                }
+
             },
 
         })
@@ -107,18 +146,6 @@ export default class extends Controller {
         console.log(event.target.dataset.user);
         const btn = document.getElementById("removeBookingBtn");
         this.modalRemoveTarget.classList.add('modal-open');
-        if (btn.dataset.user != event.target.dataset.user) {
-            this.modalRemoveTarget.firstElementChild.firstElementChild.innerHTML = "You cannot delete a slot that does not belong to you."
-            btn.classList.add('hidden');
-            return ;
-        }
-        else {
-            this.modalRemoveTarget.firstElementChild.firstElementChild.innerHTML = "Did you really want to delete this slot ?"
-            if (btn.classList.contains('hidden')) {
-                btn.classList.remove('hidden');
-            }
-        }
-        // console.log(event.target.dataset.id)
         btn.setAttribute("data-id", event.target.dataset.id.toString());
     }
 
@@ -133,13 +160,13 @@ export default class extends Controller {
      createBooking() {
         const url = `${window.location.href}bookings`;
         let data = {"booking[start]": selectDate.start, "booking[end]": selectDate.end}
-        console.log("EH OH");
         Rails.ajax({
             type: 'POST',
             url: url,
             data: new URLSearchParams(data).toString()
         })
     }
+
     data(info) {
         return {
             "booking[start]": info.event.start,

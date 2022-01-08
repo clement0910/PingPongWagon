@@ -5,6 +5,9 @@ class UsersController < ApplicationController
     @matches = @user.matches.where(is_accepted: true)
   end
 
+  def current_user_id
+    render json: {id: current_user.id}
+  end
 
   private
 

@@ -125,12 +125,11 @@
       <div class="modal-box">
         <p>Did you really want to delete this slot ?</p>
         <div class="modal-action">
-          <button class="btn btn-primary" id="removeBookingBtn" data-action="click->calendar#removeBooking" data-user="<%= current_user.id %>">Yes</button>
+          <button class="btn btn-primary" id="removeBookingBtn" data-action="click->calendar#removeBooking">Yes</button>
           <button class="btn" data-action="click->calendar#closeRemoveBookingModal">Close</button>
         </div>
       </div>
     <% end %>
-<!--    <div data-action="click@window->calendar#exitClick"></div>-->
   <%= tag :div, data: { calendar_target: 'calendar' } %>
   <% end %>
 </div>
