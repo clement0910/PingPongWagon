@@ -4,6 +4,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:github]
 
   scope :all_except, ->(user) { where.not(id: user) }
+  #create scopes for all matches
 
   has_many :winner, class_name: 'Match', foreign_key: 'winner_id'
   has_many :loser, class_name: 'Match', foreign_key: 'loser_id'

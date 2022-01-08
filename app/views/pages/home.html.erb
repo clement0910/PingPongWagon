@@ -68,7 +68,7 @@
                   <ul tabindex="0" class="p-2 menu dropdown-content bg-base-100 rounded-box w-52">
           <% @users.each do |user| %>
                       <li>
-                        <a class="justify-between" data-action="click->match#changeUser">
+                        <a class="justify-between" data-action="click->match#changeUser" data-user="<%= user.id %>">
                            <%= user.name %>
                           <div class="ml-1 avatar">
                             <div class="rounded-full w-8 h-8">
@@ -85,11 +85,19 @@
       <h2 class="text-center text-lg font-bold mt-4">Score</h2>
       <div class="justify-between card-actions items-center mb-4">
         <div class="form-control" style="width: 70px;">
-          <input type="text" placeholder="12" class="input input-bordered" data-match-target="personalScore">
+          <input type="text" placeholder="21" class="input input-bordered" data-match-target="personalScore">
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ls" width="14.29" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 274 614"><path d="M274 248v73H0v-73h274z" fill="currentColor"></path></svg>
         <div class="form-control" style="width: 70px;">
-          <input type="text" placeholder="5" class="input input-bordered" data-match-target="enemyScore">
+          <input type="text" placeholder="17" class="input input-bordered" data-match-target="enemyScore">
+        </div>
+      </div>
+      <div class="alert alert-error mb-4 hidden">
+        <div class="flex-1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+          </svg>
+          <label>Lorem ipsum dolor sit amet, consectetur adip!</label>
         </div>
       </div>
       <div class="flex justify-center gap-4">
