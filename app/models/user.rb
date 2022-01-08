@@ -3,6 +3,7 @@ class User < ApplicationRecord
          :rememberable,
          :omniauthable, omniauth_providers: [:github]
 
+  scope :all_except, ->(user) { where.not(id: user) }
 
   has_many :scores, dependent: :destroy
   has_many :matches, through: :scores, dependent: :destroy

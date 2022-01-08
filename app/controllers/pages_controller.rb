@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @match = true
-    @users = User.all
+    @users = User.all_except(current_user)
   end
 
   def ranking
