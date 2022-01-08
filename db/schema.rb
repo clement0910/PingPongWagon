@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_07_223232) do
+ActiveRecord::Schema.define(version: 2022_01_08_150355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,28 +19,22 @@ ActiveRecord::Schema.define(version: 2022_01_07_223232) do
     t.datetime "start"
     t.datetime "end"
     t.bigint "user_id", null: false
-    t.bigint "match_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"
-    t.index ["match_id"], name: "index_bookings_on_match_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
+    t.bigint "winner_id", null: false
+    t.bigint "loser_id", null: false
+    t.integer "winner_score"
+    t.integer "loser_score"
+    t.boolean "accepted", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_accepted"
-  end
-
-  create_table "scores", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "match_id", null: false
-    t.integer "score"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["match_id"], name: "index_scores_on_match_id"
-    t.index ["user_id"], name: "index_scores_on_user_id"
+    t.index ["loser_id"], name: "index_matches_on_loser_id"
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,8 +53,7 @@ ActiveRecord::Schema.define(version: 2022_01_07_223232) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "bookings", "matches"
   add_foreign_key "bookings", "users"
-  add_foreign_key "scores", "matches"
-  add_foreign_key "scores", "users"
+  add_foreign_key "matches", "users", column: "loser_id"
+  add_foreign_key "matches", "users", column: "winner_id"
 end

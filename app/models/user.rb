@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user) }
 
-  has_many :scores, dependent: :destroy
-  has_many :matches, through: :scores, dependent: :destroy
+  has_many :winner, class_name: 'Match', foreign_key: 'winner_id'
+  has_many :loser, class_name: 'Match', foreign_key: 'loser_id'
   has_many :bookings
 
   def self.from_omniauth(access_token)
