@@ -4,7 +4,10 @@ class MatchesController < ApplicationController
     if @match.save
       redirect_to root_path, notice: 'Match successfully created.'
     else
-      redirect_to root_path, alert: 'An Error has occured.'
+      ap @match.errors.messages
+      respond_to do |format|
+        format.json { render json: { error_message: @match.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 

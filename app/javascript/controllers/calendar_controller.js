@@ -85,13 +85,7 @@ export default class extends Controller {
             events: eventslist,
             editable: true, selectable: true,
             eventAllow: function (dropInfo, draggedEvent) {
-                console.log(dropInfo)
-                if (currentUserId != draggedEvent._def.extendedProps.user) {
-                    return false
-                }
-                else {
-                    return true
-                }
+                return currentUserId === draggedEvent._def.extendedProps.user;
             },
             eventDrop: function (info) {
                 let data = _this.data(info)
@@ -166,6 +160,7 @@ export default class extends Controller {
             data: new URLSearchParams(data).toString()
         })
     }
+
 
     data(info) {
         return {

@@ -18,9 +18,11 @@ Rails.ajax({
 
 
 export default class extends Controller {
-    static targets = ["modal", "select", "userImage", "personalScore", "enemyScore"]
+    static targets = ["modal", "select", "userImage", "personalScore", "enemyScore", "alert"]
+
 
     connect() {
+        console.log(this)
     }
 
     changeUser(event) {
@@ -32,6 +34,13 @@ export default class extends Controller {
         }
 
     }
+
+    openAlert(data) {
+        this.alertTarget.classList.remove("hidden")
+        console.log(data)
+        // this.alertTarget.innerText = data["error_message"][0]
+    }
+
     openModal() {
         this.modalTarget.classList.add("modal-open");
     }
@@ -51,10 +60,22 @@ export default class extends Controller {
                 "match[loser_id]": currentUserId, "match[winner_id]": this.selectTarget.dataset.user}
         }
         const url = `${window.location.href}matches`;
-        Rails.ajax ({
-            type: 'POST',
-            url: url,
-            data: new URLSearchParams(data).toString()
-        })
+        const csrfToken = document.querySelector("[name='csrf-token']").content
+        // Rails.ajax ({
+        //     type: 'POST',
+        //     url: url,
+        //     data: new URLSearchParams(data).toString(),
+        //     error: this.openAlert
+        // })
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                "X-CSRF-Token": csrfToken,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({match: data})
+        }).then(function(res) { console.log(res)})
+            .catch(function(res) { console.log(res)})
     }
 }
