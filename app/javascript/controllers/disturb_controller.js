@@ -3,23 +3,33 @@ import Rails from '@rails/ujs'
 import {green, red} from "tailwindcss/colors";
 
 export default class extends Controller {
-    static targets = ["disturb", "disturbState"]
+    static targets = ["disturb", "disturbState", "description"]
 
     connect() {
-        console.log(this.disturbStateTarget)
         if (this.disturbTarget.checked) {
-            console.log("TOTO")
-            this.disturbStateTarget.classList.add('text-red-600')
-            console.log(this.disturbStateTarget)
+            this.activatedDisturbMode()
         } else {
-            console.log("DODO")
-            this.disturbStateTarget.classList.add('text-green-400')
-            console.log(this.disturbStateTarget)
+            this.disabledDisturbMode()
         }
     }
 
-    hello() {
-        console.log(this.disturbTarget.checked)
+    activatedDisturbMode() {
+        if (this.disturbStateTarget.classList.contains('text-green-400')) {
+            this.disturbStateTarget.classList.remove('text-green-400');
+        }
+        this.disturbStateTarget.classList.add('text-red-600');
+        this.disturbStateTarget.innerText = 'activated'
+        this.descriptionTarget.innerText = 'An Alert has been display on the website.'
+    }
+
+    disabledDisturbMode() {
+        console.log("DODO")
+        if (this.disturbStateTarget.classList.contains('text-red-600')) {
+            this.disturbStateTarget.classList.remove('text-red-600');
+        }
+        this.disturbStateTarget.classList.add('text-green-400');
+        this.disturbStateTarget.innerText = 'disable'
+        this.descriptionTarget.innerText = 'You can activate "No Disturb" Mode if you want to work quietly'
     }
 
     noDisturbMode() {
@@ -27,6 +37,10 @@ export default class extends Controller {
             type: 'POST',
             url: `http://localhost:3000/users/nodisturb`
         })
-
+        if (this.disturbTarget.checked) {
+            this.activatedDisturbMode()
+        } else {
+            this.disabledDisturbMode()
+        }
     }
 }
