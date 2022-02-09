@@ -60,28 +60,28 @@
           <p style="color: white; text-transform: none;">Clément</p>
           </div>
         </div>
-        <div class="">
-                <div class="dropdown dropdown-end">
-                  <div tabindex="0" class="select select-bordered select-primary">
-                    <p style="margin-top: 9px;" data-match-target="select">Select User</p>
-                  </div>
-                  <ul tabindex="0" class="p-2 menu dropdown-content bg-base-100 rounded-box w-52">
-          <% @users.each do |user| %>
-                      <li>
-                        <a class="justify-between" data-action="click->match#changeUser" data-user="<%= user.id %>">
-                           <%= user.name %>
-                          <div class="ml-1 avatar">
-                            <div class="rounded-full w-8 h-8">
-                              <%= image_tag user.image %>
-                          </div>
-                        </div>
-                        </a>
-                      </li>
-                      <% end %>
-                  </ul>
-                </div>
-                  </div>
-                </div>
+        <div>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" class="select select-bordered select-primary">
+              <p style="margin-top: 9px;" data-match-target="select">Select User</p>
+            </div>
+            <ul tabindex="0" class="p-2 menu dropdown-content bg-base-100 rounded-box w-52">
+              <% @users.each do |user| %>
+                <li>
+                  <a class="justify-between" data-action="click->match#changeUser" data-user="<%= user.id %>">
+                    <%= user.name %>
+                    <div class="ml-1 avatar">
+                      <div class="rounded-full w-8 h-8">
+                        <%= image_tag user.image %>
+                    </div>
+                    </div>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
       <h2 class="text-center text-lg font-bold mt-4">Score</h2>
       <div class="justify-between card-actions items-center mb-4">
         <div class="form-control" style="width: 70px;">

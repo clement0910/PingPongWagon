@@ -12,14 +12,12 @@
       <%= link_to ranking_path, class: "btn btn-ghost btn-sm rounded-btn" do %>
         Ranking
       <% end %>
-<!--      <a class="btn btn-ghost btn-sm rounded-btn">-->
-<!--        About-->
-<!--      </a>-->
-<!--      <a class="btn btn-ghost btn-sm rounded-btn">-->
-<!--        Contact-->
-<!--      </a>-->
+      <%= link_to accepted_match_path, class: "btn btn-ghost btn-sm rounded-btn" do %>
+        Pending Match
+      <% end %>
     </div>
   </div>
+  <div data-controller="disturb">
   <div class="dropdown dropdown-left mr-2 dropdown-hover">
     <div tabindex="0" class="btn btn-circle btn-ghost btn-xs text-info">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline w-5 h-5 stroke-current">
@@ -27,18 +25,19 @@
       </svg>
     </div>
     <div tabindex="0" class="shadow card compact dropdown-content bg-base-100 rounded-box w-52">
-      <div class="card-body">
-        <h2 class="card-title">You needed more info?</h2>
-        <p>Here is more info you wanted. You're welcome!</p>
+      <div class="card-body" >
+        <h2 class="card-title">Do Not Disturb <p data-disturb-target="disturbState">activated</p></h2>
+        <p>Peoples are warned</p>
       </div>
     </div>
   </div>
   <label class="switch">
-    <input type="checkbox">
+    <input type="checkbox" id ="disturb" data-disturb-target="disturb" data-action="click->disturb#noDisturbMode" <%= 'checked="true"' if current_user.no_disturb %>>
     <div>
       <span></span>
     </div>
   </label>
+  </div>
   <% if user_signed_in? %>
     <div class="flex-none">
       <div class="dropdown dropdown-end dropdown-hover">

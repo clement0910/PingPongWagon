@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#profile'
   get '/ranking', to: 'pages#ranking'
   get '/current_user_id', to: 'users#current_user_id'
+  post '/users/nodisturb', to: 'users#no_disturb'
+  get '/accepted_match', to: 'pages#accepted_match'
 
 end

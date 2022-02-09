@@ -7,9 +7,9 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
       </svg>
     </div>
-    <div class="stat-title">Total Likes</div>
-    <div class="stat-value text-primary">25.6K</div>
-    <div class="stat-desc">21% more than last month</div>
+    <div class="stat-title">Match Count</div>
+    <div class="stat-value text-primary"><%= @matches.count %></div>
+    <div class="stat-desc"><%= @user.winner.reject { |match| match.accepted == false}.count %> match wins</div>
   </div>
   <div class="stat">
     <div class="stat-figure text-info">
@@ -17,21 +17,21 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
       </svg>
     </div>
-    <div class="stat-title">Page Views</div>
-    <div class="stat-value text-info">2.6M</div>
+    <div class="stat-title">Booked Slots</div>
+    <div class="stat-value text-info"><%= @bookings.count %></div>
     <div class="stat-desc">21% more than last month</div>
   </div>
   <div class="stat">
     <div class="stat-figure text-info">
       <div class="avatar online">
         <div class="w-16 h-16 p-1 mask mask-squircle bg-base-100">
-          <img src="/tailwind-css-component-profile-5@56w.png" alt="Avatar Tailwind CSS Component" class="mask mask-squircle">
+          <%= image_tag current_user.image, class: 'mask mask-squircle', alt: "#{current_user.email}" if current_user.image? %>
         </div>
       </div>
     </div>
     <div class="stat-value">86%</div>
-    <div class="stat-title">Tasks done</div>
-    <div class="stat-desc text-info">31 tasks remaining</div>
+    <div class="stat-title">Winrate</div>
+    <div class="stat-desc text-info"><%= 3 %> on the leaderboard</div>
   </div>
 </div>
 </div>
